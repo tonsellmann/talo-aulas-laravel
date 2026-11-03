@@ -1,0 +1,3 @@
+Bricolage Grotesque e Hanken Grotesk, distribuídas pelo Google Fonts sob a
+SIL Open Font License 1.1 (https://openfontlicense.org). Servidas daqui, sem
+depender de CDN, para a página abrir rápido e sem enviar dados a terceiros.

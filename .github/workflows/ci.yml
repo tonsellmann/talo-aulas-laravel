@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  sqlite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: pdo_sqlite, intl, bcmath
+          coverage: none
+      - run: composer install --no-interaction --no-progress
+      - run: cp .env.example .env
+      - run: vendor/bin/pest
+      - run: vendor/bin/phpstan analyse --no-progress --memory-limit=1G
+
+  mysql:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: talo
+          MYSQL_USER: talo
+          MYSQL_PASSWORD: talo
+          MYSQL_ROOT_PASSWORD: raiz
+        ports: ["3306:3306"]
+        options: --health-cmd="mysqladmin ping -h 127.0.0.1" --health-interval=5s --health-retries=20
+    env:
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_DATABASE: talo
+      DB_USERNAME: talo
+      DB_PASSWORD: talo
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: pdo_mysql, intl, bcmath
+          coverage: none
+      - run: composer install --no-interaction --no-progress
+      - run: cp .env.example .env
+      # Inclui a corrida: oito processos PHP pela última vaga.
+      - run: vendor/bin/pest
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build --target producao -t talo-aulas .
+      - name: A imagem sobe e responde ao /up
+        run: |
+          docker run -d --name talo -p 8080:8080 -e APP_KEY=base64:$(openssl rand -base64 32) -e DB_DATABASE=/tmp/talo.sqlite talo-aulas
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8080/up && exit 0; sleep 2; done
+          docker logs talo; exit 1

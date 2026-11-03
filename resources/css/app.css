@@ -1,0 +1,298 @@
+@import 'tailwindcss';
+
+@source '../../storage/framework/views/*.php';
+@source '../../app/**/*.php';
+
+@font-face {
+    font-family: 'Bricolage Grotesque';
+    font-weight: 400 800;
+    font-stretch: 75% 100%;
+    font-display: swap;
+    src: url('../fonts/bricolage-grotesque.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Hanken Grotesk';
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('../fonts/hanken-grotesk.woff2') format('woff2');
+}
+
+/* As cores e as fontes do site da Talo. O sistema é a mesma marca, por dentro. */
+@theme {
+    --font-sans: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+
+    --color-ameixa: #2a1838;
+    --color-ameixa-2: #4a3560;
+    --color-lilas: #f1edf8;
+    --color-lilas-2: #e2d9f3;
+    --color-lilas-3: #c9b8ef;
+    --color-lima: #d4f25a;
+    --color-lima-2: #effbc6;
+    --color-branco: #fffdfd;
+    --color-suave: #6c5f7a;
+    --color-linha: #ddd3ee;
+    --color-pessego: #ffe1c2;
+    --color-pessego-tinta: #8a4b12;
+    --color-rosa: #f4a7c8;
+    --color-menta: #8fd3b0;
+    --color-alerta: #a3261f;
+    --color-alerta-2: #fde3e0;
+
+    --radius-cartao: 18px;
+}
+
+@layer base {
+    html {
+        background: var(--color-lilas);
+        color: var(--color-ameixa);
+        font-size: 16px;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    body {
+        min-height: 100dvh;
+    }
+
+    :focus-visible {
+        outline: 3px solid var(--color-ameixa);
+        outline-offset: 2px;
+        border-radius: 10px;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+}
+
+@layer components {
+    /* Títulos e números no condensado da marca. */
+    .titulo {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-stretch: 82%;
+        letter-spacing: -0.02em;
+        line-height: 0.98;
+        text-wrap: balance;
+    }
+
+    .numero {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-stretch: 80%;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -0.01em;
+        line-height: 1;
+    }
+
+    .cartao {
+        background: var(--color-branco);
+        border-radius: var(--radius-cartao);
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        min-height: 44px;
+        padding: 0 1.25rem;
+        border: 1.5px solid transparent;
+        border-radius: 999px;
+        font-weight: 700;
+        line-height: 1;
+        white-space: nowrap;
+        cursor: pointer;
+        transition: background-color 0.15s, transform 0.15s, opacity 0.15s;
+    }
+
+    .btn:active {
+        transform: scale(0.98);
+    }
+
+    .btn:disabled,
+    .btn[aria-disabled='true'] {
+        opacity: 0.45;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .btn-primario {
+        background: var(--color-ameixa);
+        color: var(--color-branco);
+    }
+
+    .btn-primario:hover:not(:disabled) {
+        background: var(--color-ameixa-2);
+    }
+
+    .btn-lima {
+        background: var(--color-lima);
+        color: var(--color-ameixa);
+    }
+
+    .btn-lima:hover:not(:disabled) {
+        background: #c6e64a;
+    }
+
+    .btn-contorno {
+        border-color: var(--color-ameixa);
+        background: transparent;
+        color: var(--color-ameixa);
+    }
+
+    .btn-contorno:hover:not(:disabled) {
+        background: var(--color-lilas-2);
+    }
+
+    .btn-perigo {
+        background: var(--color-alerta);
+        color: #fff;
+    }
+
+    .btn-perigo:hover:not(:disabled) {
+        background: #861d17;
+    }
+
+    .btn-pequeno {
+        min-height: 36px;
+        padding: 0 0.9rem;
+        font-size: 0.875rem;
+    }
+
+    .selo {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.15rem 0.6rem;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        line-height: 1.4;
+        white-space: nowrap;
+    }
+
+    .selo-vaga {
+        background: var(--color-lima-2);
+    }
+
+    .selo-poucas {
+        background: var(--color-pessego);
+        color: var(--color-pessego-tinta);
+    }
+
+    .selo-lotada {
+        background: var(--color-lilas-2);
+        color: var(--color-suave);
+    }
+
+    .selo-ameixa {
+        background: var(--color-ameixa);
+        color: var(--color-lima);
+    }
+
+    .selo-alerta {
+        background: var(--color-alerta-2);
+        color: var(--color-alerta);
+    }
+
+    .campo {
+        width: 100%;
+        min-height: 44px;
+        padding: 0 0.9rem;
+        border: 1.5px solid var(--color-linha);
+        border-radius: 12px;
+        background: var(--color-branco);
+    }
+
+    .campo:focus {
+        border-color: var(--color-ameixa);
+        outline: none;
+    }
+
+    textarea.campo {
+        padding: 0.7rem 0.9rem;
+        min-height: 96px;
+    }
+
+    .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        min-height: 36px;
+        padding: 0 0.95rem;
+        border: 1.5px solid var(--color-ameixa);
+        border-radius: 999px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .chip[aria-pressed='true'] {
+        background: var(--color-ameixa);
+        color: var(--color-branco);
+    }
+
+    .chip:hover:not([aria-pressed='true']) {
+        background: var(--color-lilas-2);
+    }
+
+    /* Faixa colorida da modalidade, como na grade do site. */
+    .borda-modalidade {
+        border-left: 6px solid var(--cor-modalidade, var(--color-lilas-3));
+    }
+
+    /* Ficha de crédito: cada aula disponível é uma pastilha. */
+    .ficha {
+        display: inline-block;
+        width: 22px;
+        height: 30px;
+        border-radius: 999px;
+        background: var(--color-lima);
+        box-shadow: inset 0 0 0 1.5px var(--color-ameixa);
+    }
+
+    .ficha-reposicao {
+        background: var(--color-lilas-3);
+    }
+
+    .ficha-usada {
+        background: transparent;
+        box-shadow: inset 0 0 0 1.5px var(--color-linha);
+    }
+
+    .vaga-bloco {
+        display: inline-block;
+        height: 8px;
+        flex: 1;
+        border-radius: 3px;
+        background: var(--color-lilas-2);
+    }
+
+    .vaga-bloco-ocupada {
+        background: var(--color-ameixa-2);
+    }
+
+    .aviso-toast {
+        animation: subir 0.25s ease both;
+    }
+
+    @keyframes subir {
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+    }
+}
